@@ -1,0 +1,18 @@
+This diagram shows what happens when a User creates a new note using the Single Page App (SPA) version of the Notes app
+
+sequenceDiagram
+    actor User
+    participant Browser
+    participant Server
+
+User -> Browser: Writes a new note and clicks "Save"
+
+Browser -> Server: HTTP POST /new_note_spa (note data)
+Server --> Browser: JSON response
+
+note over Browser
+Browser adds the new note to the page
+without reloading.
+end note
+
+Browser -> User: Shows updated list of notes

@@ -1,0 +1,27 @@
+This diagram shows what happens when a User goes to the Single Page App (SPA) version of the Notes app
+
+Send note data (HTTP POST)
+sequenceDiagram
+    actor User
+    participant Browser
+    participant Server
+
+    User -> Browser: Enters https://studies.cs.helsinki.fi/exampleapp/spa
+
+    Browser -> Server: HTTP GET /spa
+    Server --> Browser: HTML file
+
+    Browser -> Server: HTTP GET /main.css
+    Server --> Browser: main.css
+
+    Browser -> Server: HTTP GET /spa.js
+    Server --> Browser: spa.js
+
+    Browser -> Server: HTTP GET /data.json
+    Server --> Browser: data.json (list of all notes)
+    Browser -> User: Displays the list of notes on the page
+
+    note over Browser
+        The browser renders the notes dynamically
+        on the page without reloading it.
+    end note
