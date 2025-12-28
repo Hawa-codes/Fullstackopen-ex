@@ -3,7 +3,7 @@ import React from 'react'
 const Filter = ({ filter, setFilter }) => {
   return (
     <div>
-      filter shown with <input
+      Filter shown with <input
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
       />

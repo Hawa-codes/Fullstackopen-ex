@@ -1,64 +1,97 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
-import person  from './services/person'
+import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
-  // const [persons, setPersons] = useState([
-  //   { name: 'Arto Hellas', number: '040-123456', id: 1 },
-  //   { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-  //   { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-  //   { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  // ])
-
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
-  person.getAll().then(initialPersons => {
-    setPersons(initialPersons)
-  })
-}, [])
+    personService.getAll().then(initialPersons => {
+      setPersons(initialPersons)
+    })
+  }, [])
 
+  const showNotification = (message, type = 'success') => {
+    setNotification({ message, type })
+    setTimeout(() => setNotification(null), 5000)
+  }
 
   const addPerson = (event) => {
     event.preventDefault()
 
-    const nameExists = persons.some(
+    const existingPerson = persons.find(
       person => person.name.toLowerCase() === newName.toLowerCase()
     )
 
-    if (nameExists) {
-      alert(`${newName} is already added to phonebook`)
+    if (existingPerson) {
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook, replace the old number?`
+        )
+      ) {
+        const updatedPerson = { ...existingPerson, number: newNumber }
+
+        personService
+          .update(existingPerson.id, updatedPerson)
+          .then(returnedPerson => {
+            setPersons(
+              persons.map(person =>
+                person.id !== existingPerson.id ? person : returnedPerson
+              )
+            )
+            setNewName('')
+            setNewNumber('')
+            showNotification(`Updated ${returnedPerson.name}'s number`, 'success')
+          })
+          .catch(error => {
+            setPersons(persons.filter(p => p.id !== existingPerson.id))
+            showNotification(
+              `Information of ${existingPerson.name} has already been removed from server`,
+              'error'
+            )
+          })
+      }
       return
     }
 
-    const numberExists = persons.some(
-      person => person.number === newNumber
-    )
+    const personObject = { name: newName, number: newNumber }
 
-    if (numberExists) {
-      alert(`${newNumber} is already added to phonebook`)
-      return
-    }
-
-    const personObject = {
-      name: newName,
-      number: newNumber,
-    }
-
-    axios
-      .post('http://localhost:3001/persons', personObject)
-      .then(response => {
-        setPersons(persons.concat(response.data))
+    personService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
+        showNotification(`Added ${returnedPerson.name}`, 'success')
       })
+      .catch(error => {
+        showNotification('Failed to add person', 'error')
+      })
+  }
+
+  const deletePerson = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+          showNotification(`Deleted ${name}`, 'success')
+        })
+        .catch(error => {
+          setPersons(persons.filter(person => person.id !== id))
+          showNotification(
+            `Information of ${name} was already removed from server`,
+            'error'
+          )
+        })
+    }
   }
 
   const personsToShow = persons.filter(person =>
@@ -68,7 +101,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification notification={notification} />
+
       <Filter filter={filter} setFilter={setFilter} />
+
       <h3>Add a new</h3>
 
       <PersonForm
@@ -78,8 +115,10 @@ const App = () => {
         newNumber={newNumber}
         setNewNumber={setNewNumber}
       />
+
       <h3>Numbers</h3>
-      <Persons persons={personsToShow} />
+
+      <Persons persons={personsToShow} deletePerson={deletePerson} />
     </div>
   )
 }

@@ -5,13 +5,13 @@ const PersonForm = ({ addPerson, newName, setNewName, newNumber, setNewNumber}) 
   return (
     <form onSubmit={addPerson}>
       <div>
-        name: <input
+        Name: <input
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
         />
       </div>
       <div>
-        number: <input
+        Number: <input
           value={newNumber}
           onChange={(e) => setNewNumber(e.target.value)}
         />
