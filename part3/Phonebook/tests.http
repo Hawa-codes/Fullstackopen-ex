@@ -1,0 +1,31 @@
+@hostname = http://localhost:3001
+
+###
+GET {{hostname}}/api/persons
+
+###
+GET {{hostname}}/info
+
+###
+GET {{hostname}}/api/persons/5
+
+###
+DELETE {{hostname}}/api/persons/2
+
+###
+POST http://localhost:3001/api/person
+Content-Type: application/json
+
+{
+    "name": "Hawau",
+    "number": "121-09-23456778"
+}
+
+###
+POST {{hostname}}/api/persons
+Content-Type: application/json
+
+{
+    "name": "Arto",
+    "number": "040-123477"
+}
