@@ -1,7 +1,10 @@
 const express = require("express");
+const morgan = require('morgan')
 
+// Exercises 3.7.-3.8.
 const app = express();
 app.use(express.json());
+app.use(morgan('tiny'))
 
 //Phone book backend step 1
 const persons = [
