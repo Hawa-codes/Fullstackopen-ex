@@ -29,3 +29,12 @@ Content-Type: application/json
     "name": "Arto",
     "number": "040-123477"
 }
+
+###
+POST {{hostname}}/api/persons
+Content-Type: application/json
+
+{
+    "name": "John Lee",
+    "number": "030-123456"
+}

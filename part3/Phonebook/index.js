@@ -4,7 +4,16 @@ const morgan = require('morgan')
 // Exercises 3.7.-3.8.
 const app = express();
 app.use(express.json());
-app.use(morgan('tiny'))
+
+morgan.token('body', (req) => {
+    return JSON.stringify(req.body);
+});
+
+app.use(
+    morgan(':method :url :status :res[content-length] - :response-time ms :body')
+);
+
+
 
 //Phone book backend step 1
 const persons = [
@@ -98,6 +107,15 @@ app.post("/api/persons", (req, res) => {
         error: "name must be unique",
         });
     }
+    const person = {
+        id: String(Math.floor(Math.random() * 100)),
+        name,
+        number
+    };
+
+    persons.push(person);
+
+    res.status(201).json(person);
 })
 
 
