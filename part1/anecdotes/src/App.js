@@ -12,28 +12,23 @@ const App = () => {
     "The only way to go fast, is to go well."
   ];
 
-  // State for the currently displayed anecdote
   const [selected, setSelected] = useState(0);
 
-  // State for votes (one vote count per anecdote)
   const [votes, setVotes] = useState(
     new Array(anecdotes.length).fill(0)
   );
 
-  // Display a random anecdote
   const nextAnecdote = () => {
     const randomIndex = Math.floor(Math.random() * anecdotes.length);
     setSelected(randomIndex);
   };
 
-  // Vote for the current anecdote
   const vote = () => {
     const copy = [...votes];
     copy[selected] += 1;
     setVotes(copy);
   };
 
-  // Find anecdote with the highest votes
   const maxVotes = Math.max(...votes);
   const maxIndex = votes.indexOf(maxVotes);
 
