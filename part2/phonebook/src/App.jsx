@@ -1,44 +1,83 @@
 import { useState } from 'react'
+import Filter from './Filter'
+import PersonForm from './PersonForms'
+import Persons from './Persons'
+
 
 const App = () => {
+
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
-  ]) 
+    { name: 'Arto Hellas', number: '040-123456' }
+  ])
+
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
+  const [search, setSearch] = useState('')
+
 
   const addPerson = (event) => {
     event.preventDefault()
-    const newPerson = { name: newName }
+
+    const newPerson = {
+      name: newName,
+      number: newNumber
+    }
+
+
+    const existingPerson = persons.find(
+      person => person.name === newName
+    )
+
+    const existingNumber = persons.find(
+      person => person.number === newNumber
+    )
+
 
     if (existingPerson) {
       alert(`${newName} is already in the phonebook`)
-    } else {
+    } 
+    else if (existingNumber) {
+      alert(`${newNumber} is already in the phonebook`)
+    } 
+    else {
       setPersons(persons.concat(newPerson))
       setNewName('')
+      setNewNumber('')
     }
   }
 
-  const existingPerson = persons.find(person => person.name === newName)
+
+  const personsToShow = persons.filter(person =>
+    person.name.toLowerCase().includes(search.toLowerCase())
+  )
+
 
   return (
     <div>
+
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input
-            value={newName}
-            onChange={(event) => setNewName(event.target.value)}
-          />
-        </div>
-        <div>number: <input /></div>
-        <div><button type="submit">add</button></div>
-      </form>
+
+      <Filter
+        search={search}
+        setSearch={setSearch}
+      />
+
+
+      <h2>Add a new</h2>
+
+      <PersonForm
+        addPerson={addPerson}
+        newName={newName}
+        setNewName={setNewName}
+        newNumber={newNumber}
+        setNewNumber={setNewNumber}
+      />
+
+
       <h2>Numbers</h2>
-      <ul>
-        {persons.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
+
+      <Persons persons={personsToShow}/>
+
     </div>
   )
 }
