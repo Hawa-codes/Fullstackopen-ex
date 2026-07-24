@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Filter from './Filter'
 import PersonForm from './PersonForms'
 import Persons from './Persons'
+import axios from 'axios'
 
 
 const App = () => {
@@ -14,6 +15,16 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
 
+  const fetchData = () => {
+    axios.get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data)
+      })
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -46,6 +57,18 @@ const App = () => {
     }
   }
 
+  const handleNameChange = (event) => {
+    setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
+  }   
+
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value)
+  }
+
 
   const personsToShow = persons.filter(person =>
     person.name.toLowerCase().includes(search.toLowerCase())
@@ -59,18 +82,19 @@ const App = () => {
 
       <Filter
         search={search}
-        setSearch={setSearch}
+        handleSearchChange={handleSearchChange}
       />
 
 
       <h2>Add a new</h2>
 
       <PersonForm
-        addPerson={addPerson}
+        onSubmit={addPerson}
         newName={newName}
-        setNewName={setNewName}
         newNumber={newNumber}
-        setNewNumber={setNewNumber}
+        handleNameChange={handleNameChange}
+        handleNumberChange={handleNumberChange}
+        handleSearchChange={handleSearchChange}
       />
 
 

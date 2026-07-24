@@ -1,21 +1,19 @@
 const PersonForm = ({
-  addPerson,
+  onSubmit,
   newName,
-  setNewName,
   newNumber,
-  setNewNumber
-}) => {
+  handleNameChange,
+  handleNumberChange,
+})  => {
 
   return (
-    <form onSubmit={addPerson}>
+    <form onSubmit={onSubmit}>
 
       <div>
         name:
         <input
           value={newName}
-          onChange={(event) =>
-            setNewName(event.target.value)
-          }
+          onChange={handleNameChange}
         />
       </div>
 
@@ -24,14 +22,12 @@ const PersonForm = ({
         number:
         <input
           value={newNumber}
-          onChange={(event) =>
-            setNewNumber(event.target.value)
-          }
+          onChange={handleNumberChange}
         />
       </div>
 
 
-      <button type="submit">
+      <button type="submit" >
         add
       </button>
 
