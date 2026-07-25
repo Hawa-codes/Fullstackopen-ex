@@ -1,19 +1,29 @@
 {
   "persons": [
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": "2"
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": "4"
-    },
-    {
       "name": "Arto ",
       "number": " 040-123456",
       "id": "9vazldQNzbk"
+    },
+    {
+      "name": "HAwa",
+      "number": "1234",
+      "id": "GLfKNOHxPNc"
+    },
+    {
+      "name": "amir",
+      "number": "09876",
+      "id": "JN4sZXruqfg"
+    },
+    {
+      "name": "Ameer",
+      "number": "",
+      "id": "VGoOrn-YsC4"
+    },
+    {
+      "name": "Mary Poppendieck",
+      "number": "39-23-642312",
+      "id": "6_v5_dNihos"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
