@@ -1,24 +1,9 @@
 {
   "persons": [
     {
-      "name": "Arto ",
-      "number": " 040-123456",
-      "id": "9vazldQNzbk"
-    },
-    {
-      "name": "HAwa",
-      "number": "1234",
-      "id": "GLfKNOHxPNc"
-    },
-    {
       "name": "amir",
       "number": "09876",
       "id": "JN4sZXruqfg"
-    },
-    {
-      "name": "Ameer",
-      "number": "",
-      "id": "VGoOrn-YsC4"
     },
     {
       "name": "Mary Poppendieck",
