@@ -1,8 +1,7 @@
-import React from "react";
 import Course from './Course';
 
 const App = () => {
-  const course = [
+  const courses = [
     {
       name: "Half Stack application development",
       id: 1,
@@ -26,7 +25,7 @@ const App = () => {
   return (
     <div>
       <h1>Web Development Curriculum</h1>
-      {course.map((course) => (
+      {courses.map((course) => (
         <Course key={course.id} course={course} />
       ))}
     </div>
