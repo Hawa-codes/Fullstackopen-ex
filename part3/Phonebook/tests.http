@@ -13,7 +13,7 @@ GET {{hostname}}/api/persons/5
 DELETE {{hostname}}/api/persons/2
 
 ###
-POST http://localhost:3001/api/person
+POST {{hostname}}/api/persons
 Content-Type: application/json
 
 {
@@ -38,3 +38,6 @@ Content-Type: application/json
     "name": "John Lee",
     "number": "030-123456"
 }
+
+###
+GET http://localhost:3001/api/persons

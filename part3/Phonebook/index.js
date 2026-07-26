@@ -1,17 +1,21 @@
 const express = require("express");
-// const morgan = require('morgan')
+const cors = require('cors');
+const morgan = require('morgan')
 
 // Exercises 3.7.-3.8.
 const app = express();
+app.use(cors());
 app.use(express.json());
+app.use(morgan('tiny'));
 
-// morgan.token('body', (req) => {
-//     return JSON.stringify(req.body);
-// });
 
-// app.use(
-//     morgan(':method :url :status :res[content-length] - :response-time ms :body')
-// );
+morgan.token('body', (req) => {
+    return JSON.stringify(req.body);
+});
+
+app.use(
+    morgan(':method :url :status :res[content-length] - :response-time ms :body')
+);
 
 //Phone book backend step 1
 const persons = [
@@ -80,15 +84,15 @@ app.delete("/api/persons/:id", (req, res) => {
 })
 
 // Phone book backend step 5
-app.post("/api/person", (req, res) => {
-    const { name, number } = req.body;
-    const person = { id: Math.floor(Math.random() * 30), name, number};
-    persons.push(person);
-    res.status(201).json({
-        message: "user created successfully",
-        person,
-    })
-})
+// app.post("/api/person", (req, res) => {
+//     const { name, number } = req.body;
+//     const person = { id: Math.floor(Math.random() * 30), name, number};
+//     persons.push(person);
+//     res.status(201).json({
+//         message: "user created successfully",
+//         person,
+//     })
+// })
 
 const generateId = () => {
     const maxId = persons.length > 0
