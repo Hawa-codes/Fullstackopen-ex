@@ -7,7 +7,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
 morgan.token('body', (req) => {
     return JSON.stringify(req.body);
 });
@@ -15,6 +14,9 @@ morgan.token('body', (req) => {
 app.use(
     morgan(':method :url :status :res[content-length] - :response-time ms :body')
 );
+
+app.use(express.static('dist'));
+
 
 //Phone book backend step 1
 const persons = [
