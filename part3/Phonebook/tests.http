@@ -41,3 +41,12 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3001/api/persons
+
+###
+POST https://fullstackopen-ex-lac5.onrender.com/api/persons
+Content-Type: application/json
+
+{
+  "name": "Ameer p",
+  "number": "123456789"
+}
