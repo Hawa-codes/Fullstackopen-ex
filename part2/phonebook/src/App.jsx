@@ -27,43 +27,43 @@ const App = () => {
   }, [])
 
   const addPerson = (event) => {
-  event.preventDefault();
+    event.preventDefault();
 
-  const existingPerson = persons.find(
-    person => person.name === newName
-  );
+    const existingPerson = persons.find(
+      person => person.name === newName
+    );
 
-  if (existingPerson) {
-    if (
-      window.confirm(
-        `${newName} is already added to the phonebook, replace the old number with a new one?`
-      )
-    ) {
-      const changedPerson = {
-        ...existingPerson,
-        number: newNumber,
-      };
+    if (existingPerson) {
+      if (
+        window.confirm(
+          `${newName} is already added to the phonebook, replace the old number with a new one?`
+        )
+      ) {
+        const changedPerson = {
+          ...existingPerson,
+          number: newNumber,
+        };
 
-      personServices
-        .update(existingPerson.id, changedPerson)
-        .then(returnedPerson => {
-          setPersons(
-            persons.map(person =>
-              person.id === existingPerson.id
-                ? returnedPerson
-                : person
-            )
-          );
+        personServices
+          .update(existingPerson.id, changedPerson)
+          .then(returnedPerson => {
+            setPersons(
+              persons.map(person =>
+                person.id === existingPerson.id
+                  ? returnedPerson
+                  : person
+              )
+            );
 
-          setNewName("");
-          setNewNumber("");
+            setNewName("");
+            setNewNumber("");
 
-          setMessageType("success");
-          setMessage(`Updated ${returnedPerson.name}'s number`);
+            setMessageType("success");
+            setMessage(`Updated ${returnedPerson.name}'s number`);
 
-          setTimeout(() => {
-            setMessage(null);
-          }, 5000);
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
         })
         .catch(() => {
           setMessageType("error");
